@@ -1,5 +1,4 @@
-import {Config} from 'remotion';
+import {Config} from '@remotion/cli/config';
 
 Config.setCodec('h264');
-Config.setFrameRate(30);
-Config.setDurationInFrames(300);
+

@@ -8,7 +8,14 @@
       "Bash(npx create-video@latest my-video)",
       "Bash(npm install *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Initial Remotion project setup *)"
+      "Bash(git commit -m 'Initial Remotion project setup *)",
+      "Bash(npx skills *)",
+      "Bash(git commit *)",
+      "Bash(npx tsc *)",
+      "Bash(npx remotion *)",
+      "Bash(wait)",
+      "Bash(git remote *)",
+      "Bash(git push *)"
     ]
   }
 }

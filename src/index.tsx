@@ -1,16 +1,4 @@
-import React from 'react';
-import {Composition} from 'remotion';
-import {HelloWorld} from './HelloWorld';
+import {registerRoot} from 'remotion';
+import {Root} from './Root';
 
-export const RemotionRoot: React.FC = () => {
-	return (
-		<Composition
-			id="HelloWorld"
-			component={HelloWorld}
-			durationInFrames={300}
-			fps={30}
-			width={1280}
-			height={720}
-		/>
-	);
-};
+registerRoot(Root);
