@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(npx create-video@latest . --blank --tailwind --skip-install)",
+      "Read(//c/tmp/**)",
+      "Bash(npx create-video@latest my-video --template blank --with-tailwind --no-skip-install)",
+      "Bash(npx create-video@latest my-video)",
+      "Bash(npm install *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Initial Remotion project setup *)"
+    ]
+  }
+}

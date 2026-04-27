@@ -1,0 +1,27 @@
+{
+  "name": "remotion-video",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A Remotion video project for creating animations",
+  "scripts": {
+    "dev": "remotion preview",
+    "start": "remotion preview",
+    "build": "remotion render src/index.tsx out.mp4",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.152"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.152",
+    "@remotion/renderer": "^4.0.152",
+    "@types/bun": "latest",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
