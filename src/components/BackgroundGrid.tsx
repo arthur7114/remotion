@@ -4,7 +4,7 @@ import {COLORS} from '../theme';
 
 export const BackgroundGrid: React.FC = () => {
 	const frame = useCurrentFrame();
-	const drift = interpolate(frame, [0, 900], [0, 30]);
+	const drift = interpolate(frame, [0, 750], [0, 30]);
 
 	return (
 		<AbsoluteFill style={{backgroundColor: COLORS.bg}}>

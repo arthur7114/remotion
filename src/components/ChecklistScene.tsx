@@ -40,42 +40,93 @@ const IconDoor: React.FC = () => (
 	</svg>
 );
 
-export const ChecklistScene: React.FC = () => {
+type Props = {
+	eyebrow: string;
+	title: string;
+	subtitle: string;
+	note: string;
+	items: [string, string, string, string];
+};
+
+export const ChecklistScene: React.FC<Props> = ({
+	eyebrow,
+	title,
+	subtitle,
+	note,
+	items: itemTexts,
+}) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
-	const titleEnter = spring({frame, fps, config: {damping: 18}});
-	const exit = interpolate(frame, [130, 150], [1, 0], {
+	const titleEnter = spring({frame, fps, config: {damping: 22, stiffness: 74}});
+	const noteEnter = spring({
+		frame: frame - 58,
+		fps,
+		config: {damping: 23, stiffness: 68},
+	});
+	const sceneOpacity = interpolate(frame, [0, 24, 116, 130], [0, 1, 1, 0], {
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	});
+	const routeDraw = interpolate(frame, [18, 96], [0, 1], {
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	});
+	const scanX = interpolate(frame, [18, 108], [-120, 1180], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
 	const items = [
-		{number: 1, text: 'Nunca bloqueie as saídas', icon: <IconBlock />},
-		{number: 2, text: 'Conheça as rotas de fuga', icon: <IconRoute />},
-		{number: 3, text: 'Respeite a sinalização', icon: <IconSign />},
-		{number: 4, text: 'Mantenha os acessos livres', icon: <IconDoor />},
+		{number: 1, text: itemTexts[0], icon: <IconBlock />},
+		{number: 2, text: itemTexts[1], icon: <IconDoor />},
+		{number: 3, text: itemTexts[2], icon: <IconSign />},
+		{number: 4, text: itemTexts[3], icon: <IconRoute />},
 	];
 
 	return (
 		<AbsoluteFill
 			style={{
 				fontFamily: FONT,
-				opacity: exit,
+				opacity: sceneOpacity,
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
 				justifyContent: 'center',
-				paddingTop: 60,
+				padding: '76px 120px 84px',
 			}}
 		>
-			{/* Title */}
+			<svg
+				width="1240"
+				height="560"
+				viewBox="0 0 1240 560"
+				style={{
+					position: 'absolute',
+					top: 292,
+					left: 340,
+					opacity: 0.68,
+				}}
+			>
+				<path
+					d="M 60 84 C 260 24 376 184 548 128 S 852 38 1048 104 C 1160 142 1194 220 1136 292 C 1024 430 770 332 632 422 C 524 492 382 516 176 468"
+					fill="none"
+					stroke={COLORS.cyan}
+					strokeWidth="8"
+					strokeLinecap="round"
+					strokeDasharray="1500"
+					strokeDashoffset={1500 * (1 - routeDraw)}
+					opacity="0.22"
+				/>
+				<circle cx={Math.min(Math.max(scanX, 40), 1180)} cy="112" r="10" fill={COLORS.green} opacity="0.5" />
+			</svg>
+
 			<div
 				style={{
-					transform: `translateY(${(1 - titleEnter) * -30}px)`,
+					transform: `translateY(${(1 - titleEnter) * -28}px)`,
 					opacity: titleEnter,
-					marginBottom: 44,
+					marginBottom: 34,
 					textAlign: 'center',
+					position: 'relative',
 				}}
 			>
 				<div
@@ -85,49 +136,91 @@ export const ChecklistScene: React.FC = () => {
 						gap: 12,
 						background: COLORS.green,
 						color: '#fff',
-						padding: '10px 22px',
+						padding: '9px 20px',
 						borderRadius: 999,
-						fontSize: 22,
-						fontWeight: 700,
-						letterSpacing: '0.16em',
+						fontSize: 16,
+						fontWeight: 800,
+						letterSpacing: '0.14em',
 						textTransform: 'uppercase',
-						marginBottom: 18,
-						boxShadow: '0 8px 24px rgba(89,185,90,0.35)',
+						marginBottom: 20,
+						boxShadow: '0 10px 24px rgba(89,185,90,0.22)',
 					}}
 				>
-					Checklist de segurança
+					{eyebrow}
 				</div>
 				<h2
 					style={{
-						fontSize: 76,
-						fontWeight: 800,
+						fontSize: 64,
+						fontWeight: 780,
 						color: COLORS.text,
 						margin: 0,
-						letterSpacing: '-0.025em',
+						letterSpacing: '-0.035em',
+						lineHeight: 1.02,
 					}}
 				>
-					O que <span style={{color: COLORS.blue}}>fazer</span> sempre
+					{title}
 				</h2>
+				<p
+					style={{
+						fontSize: 28,
+						fontWeight: 560,
+						color: COLORS.textSoft,
+						margin: '16px 0 0',
+						letterSpacing: '-0.015em',
+					}}
+				>
+					{subtitle}
+				</p>
 			</div>
 
-			{/* Checklist grid */}
 			<div
 				style={{
+					position: 'relative',
 					display: 'grid',
 					gridTemplateColumns: '1fr 1fr',
-					gap: 26,
-					padding: '0 100px',
+					gap: 22,
 				}}
 			>
+				<div
+					style={{
+						position: 'absolute',
+						left: scanX,
+						top: -16,
+						width: 130,
+						height: 286,
+						background: 'linear-gradient(90deg, transparent, rgba(69,200,200,0.18), transparent)',
+						borderRadius: 28,
+						filter: 'blur(1px)',
+					}}
+				/>
 				{items.map((item, i) => (
 					<ChecklistCard
 						key={item.number}
 						number={item.number}
 						text={item.text}
 						icon={item.icon}
-						delay={10 + i * 12}
+						delay={14 + i * 10}
+						compact
 					/>
 				))}
+			</div>
+
+			<div
+				style={{
+					opacity: noteEnter,
+					transform: `translateY(${(1 - noteEnter) * 16}px)`,
+					marginTop: 28,
+					padding: '13px 24px',
+					borderRadius: 999,
+					background: 'rgba(255,255,255,0.78)',
+					border: `1px solid ${COLORS.cyan}44`,
+					color: COLORS.blueDark,
+					fontSize: 24,
+					fontWeight: 680,
+					boxShadow: '0 12px 28px rgba(47,127,153,0.08)',
+				}}
+			>
+				{note}
 			</div>
 		</AbsoluteFill>
 	);

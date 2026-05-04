@@ -1,6 +1,10 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {PilulaSaidasEmergencia} from './PilulaSaidasEmergencia';
+import {
+	defaultPilulaSaidasEmergenciaProps,
+	pilulaSaidasEmergenciaSchema,
+} from './pilulaProps';
 
 export const Root: React.FC = () => {
 	return (
@@ -8,11 +12,12 @@ export const Root: React.FC = () => {
 			<Composition
 				id="PilulaSaidasEmergencia"
 				component={PilulaSaidasEmergencia}
-				durationInFrames={900}
+				durationInFrames={750}
 				fps={30}
 				width={1920}
 				height={1080}
-				defaultProps={{}}
+				schema={pilulaSaidasEmergenciaSchema}
+				defaultProps={defaultPilulaSaidasEmergenciaProps}
 			/>
 		</>
 	);

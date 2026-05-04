@@ -3,77 +3,74 @@ import {AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Easi
 import {COLORS, FONT} from '../theme';
 
 /**
- * The full exit scene that runs from frame 0 to ~600 (relative).
+ * The full exit scene that runs from frame 0 to 390 (relative).
  * Internally handles 3 phases:
  *   - Entry (0-30): scene fades + slides in
- *   - Obstructed (30-420): static with subtle ken-burns zoom
- *   - Correction (420-540): boxes slide out, green path appears
- *   - Hold (540-600): cleared scene held
+ *   - Obstructed (30-180): static with subtle ken-burns zoom
+ *   - Correction (180-360): boxes slide out, green path appears
+ *   - Hold (360-390): cleared scene held
  */
 export const EmergencyExitScene: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
-	const enter = spring({frame, fps, config: {damping: 20}});
-	const opacity = interpolate(frame, [0, 16], [0, 1], {
+	const enter = spring({frame, fps, config: {damping: 24, stiffness: 72}});
+	const opacity = interpolate(frame, [0, 24], [0, 1], {
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	});
+	const exitOpacity = interpolate(frame, [398, 425], [1, 0], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
 	// Subtle ken-burns
-	const kenBurns = interpolate(frame, [30, 420], [1, 1.04], {
+	const kenBurns = interpolate(frame, [30, 360], [1, 1.04], {
 		extrapolateRight: 'clamp',
 		easing: Easing.inOut(Easing.ease),
 	});
 
-	// Box exit progress (starts at frame 420)
-	const exitStart = 420;
+	// Box exit progress starts with the risk evidence block.
+	const exitStart = 180;
 	const box1Exit = spring({
 		frame: frame - exitStart,
 		fps,
-		config: {damping: 14, stiffness: 90},
+		config: {damping: 20, stiffness: 62},
 	});
 	const box2Exit = spring({
-		frame: frame - (exitStart + 8),
+		frame: frame - (exitStart + 14),
 		fps,
-		config: {damping: 14, stiffness: 90},
+		config: {damping: 20, stiffness: 62},
 	});
 	const box3Exit = spring({
-		frame: frame - (exitStart + 16),
+		frame: frame - (exitStart + 26),
 		fps,
-		config: {damping: 14, stiffness: 90},
+		config: {damping: 20, stiffness: 62},
 	});
 	const box4Exit = spring({
-		frame: frame - (exitStart + 4),
+		frame: frame - (exitStart + 10),
 		fps,
-		config: {damping: 14, stiffness: 90},
+		config: {damping: 20, stiffness: 62},
 	});
 
 	// Path draw (after boxes exit)
-	const pathDraw = interpolate(frame, [475, 540], [0, 1], {
+	const pathDraw = interpolate(frame, [285, 365], [0, 1], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 		easing: Easing.out(Easing.cubic),
 	});
 
 	// Door glow when path appears
-	const doorGlow = interpolate(frame, [490, 540], [0, 1], {
+	const doorGlow = interpolate(frame, [305, 375], [0, 1], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
 	// Check mark animation
-	const checkProgress = interpolate(frame, [510, 555], [0, 1], {
+	const checkProgress = interpolate(frame, [325, 385], [0, 1], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 		easing: Easing.out(Easing.back(2)),
-	});
-
-	// "Acesso livre" text
-	const accessTextProgress = spring({
-		frame: frame - 530,
-		fps,
-		config: {damping: 16},
 	});
 
 	// Pulse for danger (during obstruction phase)
@@ -84,7 +81,7 @@ export const EmergencyExitScene: React.FC = () => {
 	return (
 		<AbsoluteFill
 			style={{
-				opacity,
+				opacity: opacity * exitOpacity,
 				fontFamily: FONT,
 				transform: `translateY(${(1 - enter) * 30}px)`,
 			}}
@@ -415,7 +412,7 @@ export const EmergencyExitScene: React.FC = () => {
 						</g>
 					)}
 
-					{/* Check mark + "Acesso livre" after correction */}
+					{/* Check mark after correction */}
 					{checkProgress > 0 && (
 						<g transform="translate(720, 380)" opacity={checkProgress}>
 							<circle
@@ -441,53 +438,6 @@ export const EmergencyExitScene: React.FC = () => {
 					)}
 				</svg>
 
-				{/* "Acesso livre. Rota segura." text */}
-				{accessTextProgress > 0.05 && (
-					<div
-						style={{
-							position: 'absolute',
-							top: 420,
-							left: 120,
-							opacity: accessTextProgress,
-							transform: `translateY(${(1 - accessTextProgress) * 24}px)`,
-						}}
-					>
-						<div
-							style={{
-								background: COLORS.bgWhite,
-								padding: '20px 36px',
-								borderRadius: 16,
-								boxShadow: '0 14px 36px rgba(89,185,90,0.22)',
-								borderLeft: `8px solid ${COLORS.green}`,
-								display: 'flex',
-								flexDirection: 'column',
-								gap: 6,
-							}}
-						>
-							<span
-								style={{
-									fontSize: 28,
-									fontWeight: 700,
-									color: COLORS.green,
-									textTransform: 'uppercase',
-									letterSpacing: '0.12em',
-								}}
-							>
-								Acesso livre
-							</span>
-							<span
-								style={{
-									fontSize: 42,
-									fontWeight: 800,
-									color: COLORS.text,
-									letterSpacing: '-0.02em',
-								}}
-							>
-								Rota segura.
-							</span>
-						</div>
-					</div>
-				)}
 			</div>
 		</AbsoluteFill>
 	);

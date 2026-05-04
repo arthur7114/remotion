@@ -2,28 +2,40 @@ import React from 'react';
 import {AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig} from 'remotion';
 import {COLORS, FONT} from '../theme';
 
-export const IntroScene: React.FC = () => {
+type Props = {
+	eyebrow: string;
+	titlePrefix: string;
+	titleHighlight: string;
+	sticker: string;
+};
+
+export const IntroScene: React.FC<Props> = ({
+	eyebrow,
+	titlePrefix,
+	titleHighlight,
+	sticker,
+}) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
 	const tagEnter = spring({frame: frame - 4, fps, config: {damping: 18}});
 	const titleEnter = spring({
-		frame: frame - 18,
+		frame: frame - 12,
 		fps,
-		config: {damping: 16, stiffness: 90},
+		config: {damping: 20, stiffness: 72},
 	});
-	const underlineDraw = interpolate(frame, [40, 70], [0, 1], {
+	const underlineDraw = interpolate(frame, [28, 54], [0, 1], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
-	const exitFade = interpolate(frame, [78, 90], [1, 0], {
+	const exitFade = interpolate(frame, [62, 75], [1, 0], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
 
 	const stickerRotate = interpolate(
-		spring({frame: frame - 30, fps, config: {damping: 12}}),
+		spring({frame: frame - 24, fps, config: {damping: 18, stiffness: 70}}),
 		[0, 1],
 		[-25, -8]
 	);
@@ -77,7 +89,7 @@ export const IntroScene: React.FC = () => {
 							textTransform: 'uppercase',
 						}}
 					>
-						Pílula de SST
+						{eyebrow}
 					</span>
 				</div>
 			</div>
@@ -101,9 +113,9 @@ export const IntroScene: React.FC = () => {
 						lineHeight: 1.05,
 					}}
 				>
-					Saídas de{' '}
+					{titlePrefix}{' '}
 					<span style={{color: COLORS.blue, position: 'relative'}}>
-						emergência
+						{titleHighlight}
 						{/* underline */}
 						<svg
 							width="780"
@@ -136,11 +148,11 @@ export const IntroScene: React.FC = () => {
 					top: 220,
 					right: 280,
 					transform: `rotate(${stickerRotate}deg) scale(${spring({
-						frame: frame - 30,
+						frame: frame - 24,
 						fps,
-						config: {damping: 12},
+						config: {damping: 18, stiffness: 70},
 					})})`,
-					opacity: spring({frame: frame - 30, fps, config: {damping: 14}}),
+					opacity: spring({frame: frame - 24, fps, config: {damping: 18}}),
 				}}
 			>
 				<div
@@ -155,7 +167,7 @@ export const IntroScene: React.FC = () => {
 						boxShadow: '0 8px 22px rgba(89,185,90,0.35)',
 					}}
 				>
-					SEGURANÇA
+					{sticker}
 				</div>
 			</div>
 		</AbsoluteFill>
