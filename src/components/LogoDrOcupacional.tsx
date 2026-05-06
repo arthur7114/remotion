@@ -3,7 +3,7 @@ import {Img, staticFile, useCurrentFrame, interpolate, spring, useVideoConfig} f
 import {COLORS, FONT} from '../theme';
 
 type Props = {
-	variant?: 'corner' | 'centered';
+	variant?: 'corner' | 'centered' | 'intro';
 	delay?: number;
 };
 
@@ -32,7 +32,30 @@ export const LogoDrOcupacional: React.FC<Props> = ({
 		img.src = staticFile('logo-dr-ocupacional.png');
 		img.onload = () => setImageOk(true);
 		img.onerror = () => setImageOk(false);
-	}, []);
+	}, [variant]);
+
+	if (variant === 'intro') {
+		return (
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					opacity,
+					transform: `scale(${0.85 + enter * 0.15})`,
+				}}
+			>
+				{imageOk ? (
+					<Img
+						src={staticFile('logo-dr-ocupacional.png')}
+						style={{height: 74, objectFit: 'contain'}}
+					/>
+				) : (
+					<TextLogo size={58} />
+				)}
+			</div>
+		);
+	}
 
 	if (variant === 'centered') {
 		return (
@@ -63,12 +86,12 @@ export const LogoDrOcupacional: React.FC<Props> = ({
 			style={{
 				position: 'absolute',
 				bottom: 48,
-				right: 64,
+				left: 64,
 				opacity,
 				display: 'flex',
 				alignItems: 'center',
 				gap: 12,
-				padding: '14px 22px',
+				padding: '17px 26px',
 				background: 'rgba(255,255,255,0.85)',
 				borderRadius: 14,
 				boxShadow: '0 6px 24px rgba(47,127,153,0.10)',
@@ -78,16 +101,16 @@ export const LogoDrOcupacional: React.FC<Props> = ({
 			{imageOk ? (
 				<Img
 					src={staticFile('logo-dr-ocupacional.png')}
-					style={{height: 38, objectFit: 'contain'}}
+					style={{height: 46, objectFit: 'contain'}}
 				/>
 			) : (
-				<TextLogo size={26} />
+				<TextLogo size={31} />
 			)}
 		</div>
 	);
 };
 
-const TextLogo: React.FC<{size: number}> = ({size}) => {
+const TextLogo: React.FC<{size: number; light?: boolean}> = ({size, light = false}) => {
 	return (
 		<div
 			style={{
@@ -106,12 +129,16 @@ const TextLogo: React.FC<{size: number}> = ({size}) => {
 					width: size * 0.9,
 					height: size * 0.9,
 					borderRadius: size * 0.22,
-					background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.cyan})`,
+					background: light
+						? `linear-gradient(135deg, rgba(255,255,255,0.24), ${COLORS.teal})`
+						: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.cyan})`,
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
 					marginRight: size * 0.18,
-					boxShadow: `0 ${size * 0.05}px ${size * 0.18}px ${COLORS.blue}44`,
+					boxShadow: `0 ${size * 0.05}px ${size * 0.18}px ${
+						light ? `${COLORS.teal}55` : `${COLORS.blue}44`
+					}`,
 				}}
 			>
 				<svg
@@ -126,14 +153,14 @@ const TextLogo: React.FC<{size: number}> = ({size}) => {
 					/>
 				</svg>
 			</div>
-			<span style={{fontSize: size, fontWeight: 800, color: COLORS.blue}}>
+			<span style={{fontSize: size, fontWeight: 800, color: light ? '#fff' : COLORS.blue}}>
 				dr.
 			</span>
 			<span
 				style={{
 					fontSize: size,
 					fontWeight: 700,
-					color: COLORS.cyan,
+					color: light ? COLORS.teal : COLORS.cyan,
 				}}
 			>
 				ocupacional

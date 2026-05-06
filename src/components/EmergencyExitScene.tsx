@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Easing} from 'remotion';
+import {AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Easing, staticFile} from 'remotion';
 import {COLORS, FONT} from '../theme';
 
 /**
@@ -256,17 +256,14 @@ export const EmergencyExitScene: React.FC = () => {
 						{/* Highlight */}
 						<rect width="412" height="32" fill="#fff" opacity="0.15" rx="10" />
 						{/* Running man */}
-						<g transform="translate(20, 18)">
-							<circle cx="22" cy="14" r="9" fill="#fff" />
-							<path
-								d="M 12 28 L 22 36 L 30 30 L 38 42 L 34 50 M 22 36 L 18 50 M 30 30 L 40 25"
-								stroke="#fff"
-								strokeWidth="6"
-								fill="none"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</g>
+						<image
+							href={staticFile('exit-icon.png')}
+							x="18"
+							y="12"
+							width="58"
+							height="62"
+							preserveAspectRatio="xMidYMid meet"
+						/>
 						{/* SAIDA text */}
 						<text
 							x="86"

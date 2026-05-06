@@ -1,6 +1,10 @@
 export const COLORS = {
 	bg: '#EEF5F7',
 	bgWhite: '#FFFFFF',
+	bgDark: '#0D2B35',
+	teal: '#3BBFC1',
+	tealLight: '#D9F2F2',
+	brandBlue: '#488BA8',
 	blue: '#2F7F99',
 	blueDark: '#1F5A6D',
 	cyan: '#45C8C8',

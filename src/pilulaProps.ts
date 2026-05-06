@@ -24,13 +24,9 @@ export const pilulaSaidasEmergenciaSchema = z.object({
 		item4: z.string(),
 	}),
 	closing: z.object({
-		eyebrow: z.string(),
 		titleLine1: z.string(),
 		titleLine2: z.string(),
 		subtitle: zTextarea(),
-		action1: z.string(),
-		action2: z.string(),
-		action3: z.string(),
 	}),
 });
 
@@ -40,7 +36,7 @@ export type PilulaSaidasEmergenciaProps = z.infer<
 
 export const defaultPilulaSaidasEmergenciaProps: PilulaSaidasEmergenciaProps = {
 	intro: {
-		eyebrow: 'Pílula de SST',
+		eyebrow: 'Mapa de risco',
 		titlePrefix: 'Saídas de',
 		titleHighlight: 'emergência',
 		sticker: 'SEGURANÇA',
@@ -62,13 +58,8 @@ export const defaultPilulaSaidasEmergenciaProps: PilulaSaidasEmergenciaProps = {
 		item4: 'Avise a equipe se algo voltar a bloquear',
 	},
 	closing: {
-		eyebrow: 'Rotina boa aparece na passagem livre',
-		titleLine1: 'Saídas livres.',
-		titleLine2: 'Pessoas seguras.',
-		subtitle:
-			'Se a rota estiver livre, a resposta é mais rápida quando importa.',
-		action1: 'Olhou',
-		action2: 'Liberou',
-		action3: 'Combinou',
+		titleLine1: 'Mantenha os',
+		titleLine2: 'acessos livres.',
+		subtitle: 'Pequenas atitudes evitam acidentes.',
 	},
 };

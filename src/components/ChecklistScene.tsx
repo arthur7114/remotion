@@ -64,7 +64,7 @@ export const ChecklistScene: React.FC<Props> = ({
 		fps,
 		config: {damping: 23, stiffness: 68},
 	});
-	const sceneOpacity = interpolate(frame, [0, 24, 116, 130], [0, 1, 1, 0], {
+	const sceneOpacity = interpolate(frame, [0, 24, 176, 190], [0, 1, 1, 0], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});

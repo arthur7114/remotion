@@ -1,8 +1,14 @@
 import React from 'react';
-import {AbsoluteFill, Sequence, useCurrentFrame, interpolate} from 'remotion';
+import {
+	AbsoluteFill,
+	Img,
+	Sequence,
+	staticFile,
+	useCurrentFrame,
+	interpolate,
+} from 'remotion';
 import {COLORS, FONT} from './theme';
 import {BackgroundGrid} from './components/BackgroundGrid';
-import {LogoDrOcupacional} from './components/LogoDrOcupacional';
 import {IntroScene} from './components/IntroScene';
 import {EmergencyExitScene} from './components/EmergencyExitScene';
 import {RiskHighlight} from './components/RiskHighlight';
@@ -16,16 +22,16 @@ import {
 
 /**
  * PilulaSaidasEmergencia
- * 1920x1080, 30fps, 25s (750 frames)
+ * 1920x1080, 30fps, 29s (870 frames)
  *
  * Timeline:
- *   0-75    Intro
- *   75-500  Emergency exit scene
- *   135-255 Risk question with mascot
- *   240-360 Risk evidence with mascot
- *   360-500 Correction confirmation with mascot
- *   500-630 Centered checklist
- *   610-750 Closing without mascot
+ *   0-135   Intro
+ *   135-560 Emergency exit scene
+ *   195-315 Risk question with mascot
+ *   300-420 Risk evidence with mascot
+ *   420-560 Correction confirmation with mascot
+ *   560-750 Centered checklist
+ *   730-870 Closing without mascot
  */
 export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 	intro,
@@ -35,8 +41,7 @@ export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 } = defaultPilulaSaidasEmergenciaProps) => {
 	const frame = useCurrentFrame();
 
-	// Show the persistent corner logo only after intro
-	const cornerLogoOpacity = interpolate(frame, [70, 95, 595, 620], [0, 1, 1, 0], {
+	const footerLogoOpacity = interpolate(frame, [134, 135, 485, 500], [0, 1, 1, 0], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
@@ -50,23 +55,23 @@ export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 		>
 			<BackgroundGrid />
 
-			<Sequence from={0} durationInFrames={75} layout="none">
+			<Sequence from={0} durationInFrames={135} layout="none">
 				<IntroScene {...intro} />
 			</Sequence>
 
-			<Sequence from={75} durationInFrames={425} layout="none">
+			<Sequence from={135} durationInFrames={425} layout="none">
 				<EmergencyExitScene />
 			</Sequence>
 
-			<Sequence from={135} durationInFrames={120} layout="none">
+			<Sequence from={195} durationInFrames={120} layout="none">
 				<RiskHighlight variant="question" text={speech.question} />
 			</Sequence>
 
-			<Sequence from={240} durationInFrames={120} layout="none">
+			<Sequence from={300} durationInFrames={120} layout="none">
 				<RiskHighlight variant="evidence" text={speech.warning} />
 			</Sequence>
 
-			<Sequence from={360} durationInFrames={140} layout="none">
+			<Sequence from={420} durationInFrames={140} layout="none">
 				<MascotSpeech
 					text={speech.success}
 					tone="success"
@@ -76,7 +81,7 @@ export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 				/>
 			</Sequence>
 
-			<Sequence from={500} durationInFrames={130} layout="none">
+			<Sequence from={560} durationInFrames={190} layout="none">
 				<ChecklistScene
 					eyebrow={checklist.eyebrow}
 					title={checklist.title}
@@ -91,19 +96,42 @@ export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 				/>
 			</Sequence>
 
-			<Sequence from={610} durationInFrames={140} layout="none">
+			<Sequence from={730} durationInFrames={140} layout="none">
 				<ClosingFrame
-					eyebrow={closing.eyebrow}
 					titleLine1={closing.titleLine1}
 					titleLine2={closing.titleLine2}
 					subtitle={closing.subtitle}
-					actions={[closing.action1, closing.action2, closing.action3]}
 				/>
 			</Sequence>
 
-			{/* Persistent corner logo (hidden during intro and closing) */}
-			<div style={{opacity: cornerLogoOpacity}}>
-				<LogoDrOcupacional variant="corner" />
+			{/* Footer lockup for the main scenes only. */}
+			<div style={{opacity: footerLogoOpacity}}>
+				<div
+					style={{
+						position: 'absolute',
+						bottom: 48,
+						right: 64,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						width: 430,
+						height: 82,
+						padding: '13px 26px',
+						background: 'rgba(255,255,255,0.85)',
+						borderRadius: 14,
+						boxShadow: '0 6px 24px rgba(47,127,153,0.10)',
+						backdropFilter: 'blur(6px)',
+					}}
+				>
+					<Img
+						src={staticFile('logo-dr-cliente-mrv.png')}
+						style={{
+							width: 378,
+							height: 56,
+							objectFit: 'contain',
+						}}
+					/>
+				</div>
 			</div>
 		</AbsoluteFill>
 	);
