@@ -149,28 +149,14 @@ export const ClosingFrame: React.FC<Props> = ({
 					opacity: logoEnter,
 					transform: `translateY(${(1 - logoEnter) * 20}px)`,
 					display: 'flex',
-					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'center',
-					gap: 14,
 				}}
 			>
-				<span
-					style={{
-						fontSize: 24,
-						fontWeight: 760,
-						color: COLORS.textSoft,
-						letterSpacing: '0.08em',
-						textTransform: 'uppercase',
-					}}
-				>
-					Em parceria
-				</span>
 				<Img
-					src={staticFile('logo-dr-cliente-mrv.png')}
+					src={staticFile('logo-parceria-aon-creditos.png')}
 					style={{
-						width: 820,
-						height: 120,
+						width: 860,
 						objectFit: 'contain',
 					}}
 				/>

@@ -124,7 +124,7 @@ export const PilulaSaidasEmergencia: React.FC<PilulaSaidasEmergenciaProps> = ({
 					}}
 				>
 					<Img
-						src={staticFile('logo-dr-cliente-mrv.png')}
+						src={staticFile('logo-parceria-aon.png')}
 						style={{
 							width: 378,
 							height: 56,

@@ -91,21 +91,17 @@ export const LogoDrOcupacional: React.FC<Props> = ({
 				display: 'flex',
 				alignItems: 'center',
 				gap: 12,
-				padding: '17px 26px',
+				padding: '14px 24px',
 				background: 'rgba(255,255,255,0.85)',
 				borderRadius: 14,
 				boxShadow: '0 6px 24px rgba(47,127,153,0.10)',
 				backdropFilter: 'blur(6px)',
 			}}
 		>
-			{imageOk ? (
-				<Img
-					src={staticFile('logo-dr-ocupacional.png')}
-					style={{height: 46, objectFit: 'contain'}}
-				/>
-			) : (
-				<TextLogo size={31} />
-			)}
+			<Img
+				src={staticFile('logo-parceria-aon.png')}
+				style={{height: 46, objectFit: 'contain'}}
+			/>
 		</div>
 	);
 };
