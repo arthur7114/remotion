@@ -1,36 +1,27 @@
 import React from 'react';
-import {
-	AbsoluteFill,
-	Img,
-	Sequence,
-	staticFile,
-	useCurrentFrame,
-	interpolate,
-} from 'remotion';
+import {AbsoluteFill, Img, Sequence, staticFile, useCurrentFrame, interpolate} from 'remotion';
 import {COLORS, FONT} from './theme';
 import {BackgroundGrid} from './components/BackgroundGrid';
 import {IntroScene} from './components/IntroScene';
-import {StairsScene} from './components/StairsScene';
+import {StairsIncorretaScene} from './components/StairsIncorretaScene';
+import {StairsCorretaScene} from './components/StairsCorretaScene';
 import {ChecklistScene} from './components/ChecklistScene';
 import {ClosingFrame} from './components/ClosingFrame';
 import {MascotSpeech} from './components/MascotSpeech';
-import {
-	defaultPilulaEscadasProps,
-	type PilulaEscadasProps,
-} from './pilulaProps';
+import {defaultPilulaEscadasProps, type PilulaEscadasProps} from './pilulaProps';
 
 /**
- * PilulaEscadas
- * 1920x1080, 30fps, 29s (870 frames)
+ * PilulaEscadas — 1920×1080 | 30fps | 29s (870 frames)
  *
  * Timeline:
- *   0-135   Intro
- *   135-560 Stairs scene
- *   195-315 Question mascot
- *   300-420 Warning mascot
- *   420-560 Success mascot
- *   560-750 Checklist
- *   730-870 Closing
+ *   0–135   (4.5s)  IntroScene
+ * 135–405   (9.0s)  StairsIncorretaScene — 2 imagens em cross-fade, borda vermelha
+ *   ↳ 195–315       MascotSpeech hero/question
+ *   ↳ 315–405       MascotSpeech hero/warning
+ * 405–560   (5.2s)  StairsCorretaScene — borda verde, check, card (fadeout ~536)
+ *   ↳ 420–560       MascotSpeech hero/success
+ * 560–730   (5.7s)  ChecklistScene
+ * 730–870   (4.7s)  ClosingFrame
  */
 export const PilulaEscadas: React.FC<PilulaEscadasProps> = ({
 	intro,
@@ -40,58 +31,57 @@ export const PilulaEscadas: React.FC<PilulaEscadasProps> = ({
 } = defaultPilulaEscadasProps) => {
 	const frame = useCurrentFrame();
 
-	const footerLogoOpacity = interpolate(
-		frame,
-		[134, 135, 485, 500],
-		[0, 1, 1, 0],
-		{extrapolateLeft: 'clamp', extrapolateRight: 'clamp'},
-	);
+	const footerLogoOpacity = interpolate(frame, [134, 150, 855, 865], [0, 1, 1, 0], {
+		extrapolateLeft: 'clamp',
+		extrapolateRight: 'clamp',
+	});
 
 	return (
 		<AbsoluteFill style={{backgroundColor: COLORS.bg, fontFamily: FONT}}>
 			<BackgroundGrid />
 
+			{/* ══ BLOCO 1 | 0-135 | Intro ══════════════════════════════════════ */}
 			<Sequence from={0} durationInFrames={135} layout="none">
 				<IntroScene {...intro} />
 			</Sequence>
 
-			<Sequence from={135} durationInFrames={425} layout="none">
-				<StairsScene />
+			{/* ══ BLOCO 2 | 135-405 | Escadas INCORRETAS ══════════════════════ */}
+			<Sequence from={135} durationInFrames={270} layout="none">
+				<StairsIncorretaScene />
 			</Sequence>
 
+			{/* Fala 1 — pergunta */}
 			<Sequence from={195} durationInFrames={120} layout="none">
-				<MascotSpeech text={speech.question} tone="question" layout="mini" />
+				<MascotSpeech text={speech.question} tone="question" layout="hero" exitStart={100} exitDuration={16} />
 			</Sequence>
 
-			<Sequence from={300} durationInFrames={120} layout="none">
-				<MascotSpeech text={speech.warning} tone="warning" layout="mini" />
+			{/* Fala 2 — alerta */}
+			<Sequence from={315} durationInFrames={90} layout="none">
+				<MascotSpeech text={speech.warning} tone="warning" layout="hero" exitStart={72} exitDuration={16} />
 			</Sequence>
 
+			{/* ══ BLOCO 3 | 405-560 | Escadas CORRETAS ════════════════════════ */}
+			<Sequence from={405} durationInFrames={155} layout="none">
+				<StairsCorretaScene totalDuration={155} />
+			</Sequence>
+
+			{/* Fala 3 — sucesso */}
 			<Sequence from={420} durationInFrames={140} layout="none">
-				<MascotSpeech
-					text={speech.success}
-					tone="success"
-					layout="hero"
-					exitStart={118}
-					exitDuration={18}
-				/>
+				<MascotSpeech text={speech.success} tone="success" layout="hero" exitStart={118} exitDuration={18} />
 			</Sequence>
 
-			<Sequence from={560} durationInFrames={190} layout="none">
+			{/* ══ BLOCO 4 | 560-730 | Checklist ═══════════════════════════════ */}
+			<Sequence from={560} durationInFrames={170} layout="none">
 				<ChecklistScene
 					eyebrow={checklist.eyebrow}
 					title={checklist.title}
 					subtitle={checklist.subtitle}
 					note={checklist.note}
-					items={[
-						checklist.item1,
-						checklist.item2,
-						checklist.item3,
-						checklist.item4,
-					]}
+					items={[checklist.item1, checklist.item2, checklist.item3, checklist.item4]}
 				/>
 			</Sequence>
 
+			{/* ══ BLOCO 5 | 730-870 | Closing ══════════════════════════════════ */}
 			<Sequence from={730} durationInFrames={140} layout="none">
 				<ClosingFrame
 					titleLine1={closing.titleLine1}
@@ -100,26 +90,29 @@ export const PilulaEscadas: React.FC<PilulaEscadasProps> = ({
 				/>
 			</Sequence>
 
-			<div style={{opacity: footerLogoOpacity}}>
-				<div
-					style={{
-						position: 'absolute',
-						bottom: 48,
-						right: 64,
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						width: 430,
-						height: 82,
-						padding: '13px 26px',
-						background: 'rgba(255,255,255,0.85)',
-						borderRadius: 14,
-						boxShadow: '0 6px 24px rgba(47,127,153,0.10)',
-						backdropFilter: 'blur(6px)',
-					}}
-				>
+			{/* ── Logo parceria — sempre em primeiro plano ─────────────────────── */}
+			<div style={{
+				opacity: footerLogoOpacity,
+				position: 'absolute',
+				inset: 0,
+				zIndex: 200,
+				pointerEvents: 'none',
+			}}>
+				<div style={{
+					position: 'absolute',
+					bottom: 48,
+					right: 64,
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					padding: '13px 26px',
+					background: 'rgba(255,255,255,0.88)',
+					borderRadius: 14,
+					boxShadow: '0 6px 24px rgba(47,127,153,0.10)',
+					backdropFilter: 'blur(6px)',
+				}}>
 					<Img
-						src={staticFile('logo-dr-cliente-mrv.png')}
+						src={staticFile('logo-parceria-aon.png')}
 						style={{width: 378, height: 56, objectFit: 'contain'}}
 					/>
 				</div>

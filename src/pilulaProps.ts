@@ -67,7 +67,7 @@ export type PilulaEscadasProps = z.infer<typeof pilulaEscadasSchema>;
 
 export const defaultPilulaEscadasProps: PilulaEscadasProps = {
 	intro: {
-		eyebrow: 'Pílula de SST',
+		eyebrow: 'Mapa de risco',
 		titlePrefix: 'Uso seguro de',
 		titleHighlight: 'escadas',
 		sticker: 'PREVENÇÃO',
@@ -161,7 +161,7 @@ export type PilulaIncendioProps = z.infer<typeof pilulaIncendioSchema>;
 
 export const defaultPilulaIncendioProps: PilulaIncendioProps = {
 	intro: {
-		eyebrow: 'Pílula de SST',
+		eyebrow: 'Mapa de risco',
 		titlePrefix: 'Prevenção de',
 		titleHighlight: 'incêndio',
 		sticker: 'ATENÇÃO',
@@ -196,7 +196,7 @@ export type PilulaErgonomiaProps = z.infer<typeof pilulaErgonomiaSchema>;
 
 export const defaultPilulaErgonomiaProps: PilulaErgonomiaProps = {
 	intro: {
-		eyebrow: 'Pílula de SST',
+		eyebrow: 'Mapa de risco',
 		titlePrefix: 'Ergonomia e',
 		titleHighlight: 'postura',
 		sticker: 'SAÚDE',
@@ -231,7 +231,7 @@ export type PilulaAtencaoProps = z.infer<typeof pilulaAtencaoSchema>;
 
 export const defaultPilulaAtencaoProps: PilulaAtencaoProps = {
 	intro: {
-		eyebrow: 'Pílula de SST',
+		eyebrow: 'Mapa de risco',
 		titlePrefix: 'Atenção e',
 		titleHighlight: 'comportamento seguro',
 		sticker: 'FOCO',

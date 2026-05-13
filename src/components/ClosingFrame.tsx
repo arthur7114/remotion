@@ -82,26 +82,16 @@ export const ClosingFrame: React.FC<Props> = ({
 					{titleLine1}{' '}
 					<span style={{color: COLORS.teal, position: 'relative'}}>
 						{titleLine2}
-						<svg
-							width="780"
-							height="22"
-							viewBox="0 0 780 22"
-							style={{
-								position: 'absolute',
-								left: 0,
-								bottom: -8,
-							}}
-						>
-							<path
-								d="M 6 14 Q 200 4 400 12 T 774 10"
-								stroke={COLORS.teal}
-								strokeWidth="8"
-								strokeLinecap="round"
-								fill="none"
-								strokeDasharray="800"
-								strokeDashoffset={800 * (1 - lineDraw)}
-							/>
-						</svg>
+						<div style={{
+							position: 'absolute',
+							bottom: -10,
+							left: 0,
+							height: 8,
+							width: `${lineDraw * 100}%`,
+							background: COLORS.teal,
+							borderRadius: 4,
+							opacity: 0.85,
+						}} />
 					</span>
 				</h1>
 			</div>

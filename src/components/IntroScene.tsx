@@ -179,22 +179,16 @@ export const IntroScene: React.FC<Props> = ({
 						{titlePrefix}{' '}
 						<span style={{color: COLORS.teal, position: 'relative'}}>
 							{titleHighlight}
-							<svg
-								width="820"
-								height="24"
-								viewBox="0 0 820 24"
-								style={{position: 'absolute', left: 0, bottom: -8}}
-							>
-								<path
-									d="M 6 16 Q 210 4 420 13 T 814 11"
-									stroke={COLORS.teal}
-									strokeWidth="8"
-									strokeLinecap="round"
-									fill="none"
-									strokeDasharray="860"
-									strokeDashoffset={860 * (1 - underlineDraw)}
-								/>
-							</svg>
+							<div style={{
+								position: 'absolute',
+								bottom: -10,
+								left: 0,
+								height: 8,
+								width: `${underlineDraw * 100}%`,
+								background: COLORS.teal,
+								borderRadius: 4,
+								opacity: 0.85,
+							}} />
 						</span>
 					</h1>
 				</div>
