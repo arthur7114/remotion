@@ -232,29 +232,29 @@ export type PilulaAtencaoProps = z.infer<typeof pilulaAtencaoSchema>;
 export const defaultPilulaAtencaoProps: PilulaAtencaoProps = {
 	intro: {
 		eyebrow: 'Mapa de risco',
-		titlePrefix: 'Atenção e',
-		titleHighlight: 'comportamento seguro',
+		titlePrefix: 'Atenção no',
+		titleHighlight: 'trabalho',
 		sticker: 'FOCO',
 	},
 	speech: {
 		question: 'Você percebe o risco aqui?',
-		warning: 'Distração no trabalho pode virar acidente.',
-		success: 'Agora sim: foco total na atividade.',
+		warning: 'Improvisar no trabalho é convite para acidentes.',
+		success: 'Agora sim: procedimento correto, resultado seguro.',
 	},
 	checklist: {
 		eyebrow: 'Boas práticas',
-		title: 'Foco é segurança.',
+		title: 'Não improvise. Nunca.',
 		subtitle:
-			'Um momento de distração pode gerar consequências irreversíveis.',
-		note: 'Não improvise. Siga sempre o procedimento.',
-		item1: 'Evite usar o celular durante atividades',
-		item2: 'Foque no que está fazendo',
-		item3: 'Siga os procedimentos',
-		item4: 'Não improvise',
+			'Atalhos e improvisos parecem rápidos, mas custam caro. Fazer certo sempre é mais seguro.',
+		note: 'Em dúvida, pare e consulte seu supervisor antes de agir.',
+		item1: 'Siga sempre o procedimento correto',
+		item2: 'Use o equipamento adequado para cada tarefa',
+		item3: 'Nunca improvise para ganhar tempo',
+		item4: 'Em dúvida, pergunte antes de executar',
 	},
 	closing: {
-		titleLine1: 'Atenção total',
-		titleLine2: 'em cada tarefa.',
-		subtitle: 'Segurança começa com comportamento consciente.',
+		titleLine1: 'Faça certo.',
+		titleLine2: 'Sempre.',
+		subtitle: 'Segurança começa com você.',
 	},
 };

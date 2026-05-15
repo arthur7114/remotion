@@ -3,7 +3,7 @@ import {AbsoluteFill, Img, staticFile, useCurrentFrame, interpolate, spring, use
 import {COLORS, FONT} from '../theme';
 
 /**
- * AtencaoCorretaScene — comportamento seguro / foco no trabalho
+ * AtencaoCorretaScene — uso correto do cavalete para acesso a alturas
  * Duração: 155 frames dentro de Sequence (com fadeout automático)
  */
 export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDuration = 155}) => {
@@ -67,7 +67,7 @@ export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDu
 				opacity: frameEnter,
 			}}>
 				<Img
-					src={staticFile('atencao-correto.png')}
+					src={staticFile('atencao-cavalete-correto.png')}
 					style={{
 						width: '100%',
 						height: '100%',
@@ -112,7 +112,7 @@ export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDu
 				)}
 			</svg>
 
-			{/* Label "COMPORTAMENTO SEGURO" */}
+			{/* Label "USO CORRETO DO APOIO" */}
 			<div style={{
 				position: 'absolute',
 				left: FRAME_X + 24,
@@ -140,7 +140,7 @@ export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDu
 						<path d="M 7 12 L 11 16 L 17 8" stroke="white"
 							strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
 					</svg>
-					Comportamento seguro
+					Procedimento correto
 				</div>
 			</div>
 
@@ -171,7 +171,7 @@ export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDu
 							textTransform: 'uppercase',
 							letterSpacing: '0.1em',
 						}}>
-							Comportamento seguro
+							Procedimento correto
 						</span>
 						<span style={{
 							fontSize: 38,
@@ -179,7 +179,7 @@ export const AtencaoCorretaScene: React.FC<{totalDuration?: number}> = ({totalDu
 							color: COLORS.text,
 							letterSpacing: '-0.02em',
 						}}>
-							Foco salva vidas.
+							Faça sempre do jeito certo.
 						</span>
 					</div>
 				</div>

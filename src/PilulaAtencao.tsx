@@ -11,17 +11,17 @@ import {MascotSpeech} from './components/MascotSpeech';
 import {defaultPilulaAtencaoProps, type PilulaAtencaoProps} from './pilulaProps';
 
 /**
- * PilulaAtencao — 1920×1080 | 30fps | 29s (870 frames)
+ * PilulaAtencao — 1920×1080 | 30fps | 30s (900 frames)
  *
  * Timeline:
  *   0–135   (4.5s)  IntroScene
- * 135–405   (9.0s)  AtencaoIncorretaScene — comportamento de risco, borda vermelha
+ * 135–435   (10.0s) AtencaoIncorretaScene — improviso de risco, borda vermelha
  *   ↳ 195–315       MascotSpeech hero/question
- *   ↳ 315–405       MascotSpeech hero/warning
- * 405–560   (5.2s)  AtencaoCorretaScene — comportamento seguro, borda verde (fadeout ~536)
- *   ↳ 420–560       MascotSpeech hero/success
- * 560–730   (5.7s)  ChecklistScene
- * 730–870   (4.7s)  ClosingFrame
+ *   ↳ 315–435       MascotSpeech hero/warning (+30f loop)
+ * 435–590   (5.2s)  AtencaoCorretaScene — procedimento correto, borda verde
+ *   ↳ 450–590       MascotSpeech hero/success
+ * 590–760   (5.7s)  ChecklistScene
+ * 760–900   (4.7s)  ClosingFrame
  */
 export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 	intro,
@@ -31,7 +31,7 @@ export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 } = defaultPilulaAtencaoProps) => {
 	const frame = useCurrentFrame();
 
-	const footerLogoOpacity = interpolate(frame, [134, 150, 855, 865], [0, 1, 1, 0], {
+	const footerLogoOpacity = interpolate(frame, [134, 150, 885, 895], [0, 1, 1, 0], {
 		extrapolateLeft: 'clamp',
 		extrapolateRight: 'clamp',
 	});
@@ -45,8 +45,8 @@ export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 				<IntroScene {...intro} />
 			</Sequence>
 
-			{/* ══ BLOCO 2 | 135-405 | Comportamento INCORRETO ═════════════════ */}
-			<Sequence from={135} durationInFrames={270} layout="none">
+			{/* ══ BLOCO 2 | 135-435 | Improviso INCORRETO ════════════════════ */}
+			<Sequence from={135} durationInFrames={300} layout="none">
 				<AtencaoIncorretaScene />
 			</Sequence>
 
@@ -55,23 +55,23 @@ export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 				<MascotSpeech text={speech.question} tone="question" layout="hero" exitStart={100} exitDuration={16} />
 			</Sequence>
 
-			{/* Fala 2 — alerta */}
-			<Sequence from={315} durationInFrames={90} layout="none">
-				<MascotSpeech text={speech.warning} tone="warning" layout="hero" exitStart={72} exitDuration={16} />
+			{/* Fala 2 — alerta (+30f para bater 30s) */}
+			<Sequence from={315} durationInFrames={120} layout="none">
+				<MascotSpeech text={speech.warning} tone="warning" layout="hero" exitStart={102} exitDuration={16} />
 			</Sequence>
 
-			{/* ══ BLOCO 3 | 405-560 | Comportamento CORRETO ═══════════════════ */}
-			<Sequence from={405} durationInFrames={155} layout="none">
+			{/* ══ BLOCO 3 | 435-590 | Procedimento CORRETO ════════════════════ */}
+			<Sequence from={435} durationInFrames={155} layout="none">
 				<AtencaoCorretaScene totalDuration={155} />
 			</Sequence>
 
 			{/* Fala 3 — sucesso */}
-			<Sequence from={420} durationInFrames={140} layout="none">
+			<Sequence from={450} durationInFrames={140} layout="none">
 				<MascotSpeech text={speech.success} tone="success" layout="hero" exitStart={118} exitDuration={18} />
 			</Sequence>
 
-			{/* ══ BLOCO 4 | 560-730 | Checklist ═══════════════════════════════ */}
-			<Sequence from={560} durationInFrames={170} layout="none">
+			{/* ══ BLOCO 4 | 590-760 | Checklist ═══════════════════════════════ */}
+			<Sequence from={590} durationInFrames={170} layout="none">
 				<ChecklistScene
 					eyebrow={checklist.eyebrow}
 					title={checklist.title}
@@ -81,8 +81,8 @@ export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 				/>
 			</Sequence>
 
-			{/* ══ BLOCO 5 | 730-870 | Closing ══════════════════════════════════ */}
-			<Sequence from={730} durationInFrames={140} layout="none">
+			{/* ══ BLOCO 5 | 760-900 | Closing ══════════════════════════════════ */}
+			<Sequence from={760} durationInFrames={140} layout="none">
 				<ClosingFrame
 					titleLine1={closing.titleLine1}
 					titleLine2={closing.titleLine2}
@@ -101,7 +101,7 @@ export const PilulaAtencao: React.FC<PilulaAtencaoProps> = ({
 				<div style={{
 					position: 'absolute',
 					bottom: 48,
-					right: 64,
+					left: 64,
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',

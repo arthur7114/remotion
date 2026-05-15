@@ -3,8 +3,10 @@ import {AbsoluteFill, Img, staticFile, useCurrentFrame, interpolate, spring, use
 import {COLORS, FONT} from '../theme';
 
 /**
- * AtencaoIncorretaScene — comportamento de risco / distração no trabalho
+ * AtencaoIncorretaScene — uso inadequado de apoio (cadeira giratória)
  * Duração: 270 frames dentro de Sequence
+ * Frames 0–150:   incorreto 1 (subindo na cadeira giratória)
+ * Frames 130–270: incorreto 2 (queda da cadeira)
  */
 export const AtencaoIncorretaScene: React.FC = () => {
 	const frame = useCurrentFrame();
@@ -18,8 +20,13 @@ export const AtencaoIncorretaScene: React.FC = () => {
 	});
 
 	const frameEnter = spring({frame, fps, config: {damping: 22, stiffness: 60}});
-
 	const pulse = Math.sin((frame / fps) * Math.PI * 1.8) * 0.5 + 0.5;
+
+	// Cross-fade entre as duas imagens incorretas: 130→160
+	const img2Opacity = interpolate(frame, [130, 160], [0, 1], {
+		extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+		easing: Easing.inOut(Easing.ease),
+	});
 
 	const labelEnter = interpolate(frame, [20, 45], [0, 1], {
 		extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
@@ -56,13 +63,29 @@ export const AtencaoIncorretaScene: React.FC = () => {
 				border: '3px solid rgba(255,255,255,0.9)',
 				opacity: frameEnter,
 			}}>
+				{/* Imagem incorreta 1 — subindo na cadeira giratória */}
 				<Img
-					src={staticFile('atencao-incorreto.png')}
+					src={staticFile('atencao-cadeira-incorreta-1.png')}
 					style={{
+						position: 'absolute',
+						inset: 0,
 						width: '100%',
 						height: '100%',
 						objectFit: 'cover',
 						objectPosition: 'center center',
+					}}
+				/>
+				{/* Imagem incorreta 2 — queda da cadeira */}
+				<Img
+					src={staticFile('atencao-cadeira-incorreta-2.png')}
+					style={{
+						position: 'absolute',
+						inset: 0,
+						width: '100%',
+						height: '100%',
+						objectFit: 'cover',
+						objectPosition: 'center center',
+						opacity: img2Opacity,
 					}}
 				/>
 			</div>
@@ -97,7 +120,7 @@ export const AtencaoIncorretaScene: React.FC = () => {
 				)}
 			</svg>
 
-			{/* Label "COMPORTAMENTO DE RISCO" */}
+			{/* Label "USO INADEQUADO" topo esquerdo do frame */}
 			<div style={{
 				position: 'absolute',
 				left: FRAME_X + 24,
@@ -127,7 +150,7 @@ export const AtencaoIncorretaScene: React.FC = () => {
 							stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
 						<circle cx="12" cy="18" r="1.2" fill="white"/>
 					</svg>
-					Comportamento de risco
+					Improviso no trabalho
 				</div>
 			</div>
 
